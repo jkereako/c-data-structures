@@ -12,7 +12,9 @@ Item * append_item(Item *, Item *);
 Item * prepend_item(Item *, Item *);
 Item * allocate_item(void);
 Item * insert_item(Item *, Item *, int);
+Item * delete_item(Item *, int);
 Item * find_item(Item *, int);
+void print_list(Item *);
 
 Item * init_list(Item *list) {
   assert(list != NULL);
@@ -78,6 +80,30 @@ Item * insert_item(Item *list, Item *item, int position) {
   return list;
 }
 
+Item * delete_item(Item *list, int position) {
+  assert(list != NULL);
+  assert(position >= 0);
+
+  Item * current_item =  list;
+  int i = position - 1;
+
+  while (--i && current_item != NULL) {
+    current_item = current_item->next_item;
+  }
+
+  if (current_item->next_item == NULL) {
+    ;
+  }
+
+  Item *delete_item = current_item->next_item;
+  Item *temp = delete_item->next_item;
+  current_item->next_item = temp;
+
+  free(delete_item);
+
+  return list;
+}
+
 // Returns an item for a given position
 Item* find_item(Item* list, int position){ 
   // Assert that the position is greater than or equal to zero.
@@ -94,6 +120,17 @@ Item* find_item(Item* list, int position){
   }
 
   return current_item;
+}
+
+void print_list(Item *list) {
+  assert(list != NULL);
+  
+  Item *current_item = list;
+  
+  while(current_item != NULL) {
+    printf("  %d\n", current_item->value);
+    current_item = current_item->next_item;
+  }
 }
 
 int main(int argc, char **argv) {
@@ -123,11 +160,14 @@ int main(int argc, char **argv) {
   // Reset the current item pointer to the start of the list so we can print the
   // list to stdout
   current_item = list;
+ 
+  printf("  Full list");
+  print_list(list);
+  
+  delete_item(list, 5);
 
-  while(current_item != NULL) {
-    printf("  %d\n", current_item->value);
-    current_item = current_item->next_item;
-  }
+  printf("\n\n  Full list");
+  print_list(list);
 
   current_item = find_item(list, 4);
 
