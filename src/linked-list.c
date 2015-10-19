@@ -1,19 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 typedef struct item {
   int value;
   struct item *next_item;
 } Item;
 
-Item* find_item(Item*, int);
+Item * init_list(Item *);
+Item * find_item(Item *, int);
+
+
+Item * init_list(Item *list) {
+  //assert(list);
+  list->value = 0;
+  list->next_item = NULL;
+
+  return list;
+}
 
 // Returns an item for a given position
 Item* find_item(Item* list, int position){ 
-  if (position < 0) {
-    return NULL;
-  }
-  
+  // Assert that the position is greater than or equal to zero.
+  // Normally, you want a program to continue executing if an error is
+  // encountered. However, passing an invalid position is a programming error
+  // and as such, the program ought to halt execution so the bug may be fixed.
+  assert(position >= 0);
+
   int i = position; 
   Item *current_item = list;
 
@@ -33,7 +46,9 @@ int main(int argc, char **argv) {
   
   // Initialize the list
   list = current_item = (Item *)malloc(sizeof(Item));
-  list->value = 0;
+
+  init_list(list);
+
   current_item->next_item = NULL;
   
   // Create list items
