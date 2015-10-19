@@ -6,6 +6,24 @@ typedef struct item {
   struct item *next_item;
 } Item;
 
+Item* find_item(Item*, int);
+
+// Returns an item for a given position
+Item* find_item(Item* list, int position){ 
+  if (position < 0) {
+    return NULL;
+  }
+  
+  int i = position; 
+  Item *current_item = list;
+
+  while (--i && current_item != NULL) {
+    current_item = current_item->next_item;
+  }
+
+  return current_item;
+}
+
 int main(int argc, char **argv) {
   unsigned int i;
   unsigned int limit = 10;
@@ -39,5 +57,8 @@ int main(int argc, char **argv) {
     current_item = current_item->next_item;
   }
 
+  current_item = find_item(list, 4);
+
+  printf("  Searched item: %d", current_item->value);
   // Leak memory.
 }
