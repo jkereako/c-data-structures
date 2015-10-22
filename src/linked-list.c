@@ -23,9 +23,9 @@ int detect_loop (Item *);
 int detect_loop (Item *list) {
   Item *tortoise, *hare;
 
-  while (tortoise && hare && hare->next_item) {
+  while (tortoise && hare && hare->next_item != NULL) {
     tortoise = tortoise->next_item;
-    
+    hare = hare->next_item->next_item; 
     if (tortoise == hare) {
       return -1;
     }
