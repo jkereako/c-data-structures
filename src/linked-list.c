@@ -37,10 +37,14 @@ Item * find_middle(Item *list) {
 // for finding loops.
 int detect_loop (Item *list) {
   Item *tortoise, *hare;
-
-  while (tortoise && hare && hare->next_item != NULL) {
+  
+  // If the tortoise or hare are NULL, then that indicates the end of the list
+  // has been reached, which indicates that there is no cycle.
+  while (tortoise != NULL && hare != NULL && hare->next_item != NULL) {
     tortoise = tortoise->next_item;
-    hare = hare->next_item->next_item; 
+    hare = hare->next_item->next_item;
+    
+    // If the tortoise and hare are equal to one another, then there is a cycle.
     if (tortoise == hare) {
       return -1;
     }
