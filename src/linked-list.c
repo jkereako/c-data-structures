@@ -17,7 +17,22 @@ Item * find_item(Item *, int);
 void print_list(Item *);
 void print_rlist(Item *);
 int detect_loop (Item *);
+Item * find_middle(Item *);
 
+Item * find_middle(Item *list) {
+  Item *tortoise = list;
+  Item *hare = list;
+
+  // Advance the hare by 2 and the tortoise by 1. By the time the hare reaches
+  // the end of the list, the tortoise will point to the middle item. This
+  // algorithm is analogous to dividing the list by 2.
+  while (hare != NULL && hare->next_item != NULL) {
+    hare = hare->next_item->next_item;
+    tortoise = tortoise->next_item;
+  }
+
+  return tortoise;
+}
 // This is the Floyd cycle-finding algorithm. It's the fastest known algorithm
 // for finding loops.
 int detect_loop (Item *list) {
@@ -204,7 +219,7 @@ int main(int argc, char **argv) {
   // Reset the current item pointer to the start of the list so we can print the
   // list to stdout
   current_item = list;
- 
+  find_middle(list); 
   printf("  Full list");
   print_list(list);
   
