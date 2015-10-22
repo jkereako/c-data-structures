@@ -123,6 +123,23 @@ Item * delete_item(Item *list, int position) {
   return list;
 }
 
+Item * reverse_list(Item *list) {
+  Item *previous_item = NULL, *next_item, *current_item;
+
+  current_item = list;
+
+  while (current_item != NULL ) {
+    next_item = current_item->next_item;
+    current_item->next_item = previous_item;
+    previous_item = current_item;
+    current_item = next_item;
+  }
+
+  list = previous_item;
+
+  return list;
+}
+
 // Returns an item for a given position
 Item* find_item(Item* list, int position){ 
   // Assert that the position is greater than or equal to zero.
@@ -184,7 +201,6 @@ int main(int argc, char **argv) {
     current_item = current_item->next_item;
   }
 
-  detect_loop(list);
   // Reset the current item pointer to the start of the list so we can print the
   // list to stdout
   current_item = list;
@@ -192,7 +208,8 @@ int main(int argc, char **argv) {
   printf("  Full list");
   print_list(list);
   
-  delete_item(list, 5);
+  list = reverse_list(list);
+  //delete_item(list, 5);
 
   printf("\n\n  Full list");
   print_list(list);
