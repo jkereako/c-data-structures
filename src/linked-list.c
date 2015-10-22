@@ -16,6 +16,25 @@ Item * delete_item(Item *, int);
 Item * find_item(Item *, int);
 void print_list(Item *);
 void print_rlist(Item *);
+int detect_loop (Item *);
+
+// This is the Floyd cycle-finding algorithm. It's the fastest known algorithm
+// for finding loops.
+int detect_loop (Item *list) {
+  Item *tortoise, *hare;
+
+  while (tortoise && hare && hare->next_item) {
+    tortoise = tortoise->next_item;
+    
+    if (tortoise == hare) {
+      return -1;
+    }
+
+  }
+  
+  return 0;
+}
+
 Item * init_list(Item *list) {
   assert(list != NULL);
 
@@ -164,7 +183,8 @@ int main(int argc, char **argv) {
     current_item->value = i;
     current_item = current_item->next_item;
   }
-  
+
+  detect_loop(list);
   // Reset the current item pointer to the start of the list so we can print the
   // list to stdout
   current_item = list;
