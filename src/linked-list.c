@@ -15,7 +15,7 @@ Item * insert_item(Item *, Item *, int);
 Item * delete_item(Item *, int);
 Item * find_item(Item *, int);
 void print_list(Item *);
-
+void print_rlist(Item *);
 Item * init_list(Item *list) {
   assert(list != NULL);
 
@@ -123,16 +123,24 @@ Item* find_item(Item* list, int position){
 }
 
 void print_list(Item *list) {
-  assert(list != NULL);
-  
-  Item *current_item = list;
-  
-  while(current_item != NULL) {
-    printf("  %d\n", current_item->value);
-    current_item = current_item->next_item;
+  if (list == NULL) {
+    return;
   }
+
+  printf("  %d\n", list->value);
+
+  return print_list(list->next_item);
 }
 
+void print_rlist(Item *list) {
+  if (list == NULL) {
+    return;
+  }
+
+  return print_list(list->next_item);
+
+  printf("  %d\n", list->value);
+}
 int main(int argc, char **argv) {
   unsigned int i;
   unsigned int limit = 10;
